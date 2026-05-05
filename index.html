@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موسوعة المرجع التسويقي الشامل | معزز</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1A365D; /* Dark Blue */
+            --secondary: #2B6CB0; /* Blue */
+            --accent: #38B2AC; /* Teal */
+            --background: #F7FAFC; /* Light Gray */
+            --surface: #FFFFFF; /* White */
+            --text-main: #2D3748; /* Dark Gray */
+            --text-light: #4A5568; /* Gray */
+            --border: #E2E8F0;
+            --success: #48BB78;
+            --warning: #ECC94B;
+            --danger: #E53E3E;
+            --purple: #805AD5;
+            --orange: #ED8936;
+            --sidebar-width: 300px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-main);
+            line-height: 1.8;
+            /* تم إزالة display: flex من هنا لكي لا تتعارض مع شاشة الدخول */
+        }
+
+        /* حاوية التطبيق الأساسي (مخفية في البداية) */
+        .app-wrapper {
+            display: none; /* يتم إظهارها عبر الجافاسكريبت */
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* ---------------------------------- */
+        /* شاشة تسجيل الدخول */
+        /* ---------------------------------- */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: var(--surface);
+            padding: 3rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            animation: slideUpFade 0.6s ease-out;
+        }
+
+        @keyframes slideUpFade {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .login-logo-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-logo-container img {
+            max-width: 120px;
+            height: auto;
+            /* يمكنك تعديل هذه الخصائص بناء على أبعاد الشعار الخاص بك */
+        }
+
+        .login-card h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            margin-top: 0;
+            border: none;
+            padding: 0;
+        }
+
+        .login-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            background-color: #FAFAFA;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent);
+            background-color: var(--surface);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            background-color: #2C7A7B;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.95rem;
+            margin-top: 10px;
+            font-weight: 600;
+            display: none;
+            background-color: #FED7D7;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        /* ---------------------------------- */
+        /* باقي تنسيقات الموسوعة الأصلية */
+        /* ---------------------------------- */
+        h1, h2, h3, h4 { color: var(--primary); margin-bottom: 1rem; font-weight: 700; }
+        h1 { font-size: 2.2rem; border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; display: inline-block; margin-bottom: 2rem;}
+        h2 { font-size: 1.8rem; margin-top: 2.5rem; color: var(--secondary); border-right: 4px solid var(--accent); padding-right: 15px; }
+        h3 { font-size: 1.4rem; margin-top: 1.5rem; }
+        p { margin-bottom: 1rem; font-size: 1.05rem; }
+        ul, ol { margin-bottom: 1.5rem; padding-right: 2rem; }
+        li { margin-bottom: 0.5rem; }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--surface);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            border-left: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+        }
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+        }
+        .sidebar-header h2 { color: white; border: none; padding: 0; margin: 0; font-size: 1.5rem; }
+        .sidebar-nav { padding: 1rem 0; }
+        .sidebar-nav ul { list-style: none; padding: 0; }
+        .sidebar-nav a {
+            display: block; padding: 0.8rem 1.5rem; color: var(--text-light); text-decoration: none;
+            font-weight: 600; border-right: 3px solid transparent; transition: all 0.2s; font-size: 0.95rem;
+        }
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: #EBF8FF; color: var(--secondary); border-right-color: var(--secondary);
+        }
+
+        .main-content {
+            margin-right: var(--sidebar-width);
+            padding: 3rem;
+            width: calc(100% - var(--sidebar-width));
+            max-width: 1200px;
+        }
+
+        .quote-box {
+            background-color: #E6FFFA; border-right: 5px solid var(--accent); padding: 1.5rem;
+            margin: 1.5rem 0; border-radius: 8px 0 0 8px; font-size: 1.15rem; font-weight: 600;
+            color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .highlight-box {
+            background-color: var(--surface); border: 1px solid var(--border); padding: 1.5rem;
+            border-radius: 10px; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .notice-box {
+            background-color: #FFFBEB; border: 1px solid #FCD34D; border-right: 4px solid #F59E0B;
+            padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.95rem; color: #92400E;
+        }
+
+        .table-responsive { overflow-x: auto; margin: 2rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; background-color: var(--surface); }
+        th, td { padding: 1rem; text-align: right; border-bottom: 1px solid var(--border); }
+        th { background-color: var(--primary); color: white; font-weight: 600; white-space: nowrap; }
+        tr:hover { background-color: #F7FAFC; }
+
+        details { background-color: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        summary { padding: 1.2rem; font-weight: 700; cursor: pointer; color: var(--primary); background-color: var(--surface); list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: transform 0.3s ease; margin-right: 15px; }
+        details[open] summary::after { transform: rotate(180deg); }
+        details .faq-content { padding: 1.2rem; border-top: 1px solid var(--border); background-color: #FAFAFA; line-height: 1.9; }
+
+        .category-header { padding: 1rem 1.5rem; border-radius: 8px; margin-top: 2rem; margin-bottom: 1.5rem; color: white; display: flex; align-items: center; gap: 10px; }
+        .category-header h3 { margin: 0; color: white; }
+        .bg-blue { background-color: var(--secondary); }
+        .bg-green { background-color: var(--success); }
+        .bg-purple { background-color: var(--purple); }
+        .bg-yellow { background-color: var(--orange); }
+
+        .debate-axis { margin-top: 2.5rem; padding: 1.5rem; background-color: #fff; border: 1px solid var(--border); border-radius: 10px; border-right: 5px solid var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
+        .debate-axis h3 { margin-top: 0; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .target-badge { background-color: var(--background); color: var(--text-light); font-size: 0.85rem; padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--border); font-weight: 600; }
+        .q-badge { font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 4px; color: white; margin-left: 10px; white-space: nowrap; }
+        .badge-trap { background-color: var(--danger); }
+        .badge-mine { background-color: var(--orange); }
+        .badge-tech { background-color: var(--secondary); }
+        .badge-market { background-color: var(--success); }
+        .badge-owner { background-color: var(--purple); }
+        .summary-content { display: flex; align-items: center; }
+
+        .mobile-toggle { display: none; position: fixed; top: 1rem; right: 1rem; background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; font-size: 1.5rem; z-index: 1001; cursor: pointer; }
+        .conclusion-box { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 2.5rem; border-radius: 12px; text-align: center; margin-top: 3rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .conclusion-box h2 { color: var(--warning); border: none; padding: 0; }
+        .conclusion-box p, .conclusion-box strong { color: white; font-size: 1.2rem; }
+
+        #backToTop { position: fixed; bottom: 2rem; left: 2rem; background: var(--accent); color: white; width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.3s; z-index: 1000; }
+        #backToTop:hover { background: #2C7A7B; }
+
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-right: 0; width: 100%; padding: 4rem 1.5rem 2rem 1.5rem; }
+            .mobile-toggle { display: block; }
+            .summary-content { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .q-badge { margin-left: 0; margin-bottom: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginOverlay" class="login-screen">
+        <div class="login-card">
+            
+            <!-- قم بتغيير src في السطر التالي لمسار صورة الشعار الخاص بك -->
+            <div class="login-logo-container">
+                <img id="login-logo" src="./128-2.svg" alt="شعار معزز">
+            </div>
+
+            <h2>مرحباً بمسوقي معزز، شركاء النجاح!</h2>
+            <p class="login-subtitle">الدليل المعلوماتي الشامل - بوابة الدخول</p>
+
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="usernameInput" placeholder="اسم المستخدم">
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="passwordInput" placeholder="كلمة المرور">
+            </div>
+
+            <p id="loginError" class="error-msg">اسم المستخدم أو كلمة المرور غير صحيحة، يرجى المحاولة مرة أخرى.</p>
+
+            <button onclick="handleLogin()" class="login-btn">دخول للموسوعة</button>
+        </div>
+    </div>
+
+    <!-- حاوية التطبيق الأساسي (تظهر بعد الدخول) -->
+    <div id="mainAppWrapper" class="app-wrapper">
+
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>معزز | Moazzez</h2>
+                <p>المرجع التسويقي</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul id="nav-links">
+                    <li><a href="#section-0" class="active">المقدمة</a></li>
+                    <li><a href="#section-1">1) الرؤية والتموضع</a></li>
+                    <li><a href="#section-2">2) الركائز الأربع</a></li>
+                    <li><a href="#section-3">3) تشريح الوحدات</a></li>
+                    <li><a href="#section-4">4) الميزة التنافسية</a></li>
+                    <li><a href="#section-5">5) مصفوفة الإقناع</a></li>
+                    <li><a href="#section-6">6) خارطة الطريق</a></li>
+                    <li><a href="#section-7">7) قاموس المسوقين</a></li>
+                    <li><a href="#section-8">8) أسئلة متوقعة (أساسية)</a></li>
+                    <li><a href="#section-9">9) تصنيفات الأسئلة العميقة</a></li>
+                    <li><a href="#section-10">10) المناظرات الاستراتيجية</a></li>
+                    <li><a href="#section-11">11) رسائل بيعية</a></li>
+                    <li><a href="#section-12">12) الخلاصة</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            
+            <section id="section-0" class="content-section">
+                <h1>موسوعة المرجع التسويقي الشامل</h1>
+                <h3>مشروع «معزز | Moazzez» — النسخة الأولى</h3>
+                <p>فيما يلي نسخة محدثة ومضبوطة لتكون <strong>مرجعاً تسويقياً للنسخة الأولى من مشروع معزز</strong>، مع الالتزام بالتوجيه الأخير: <strong>لا يوجد حديث عن سوق المهارات، Marketplace، المحفظة الرقمية، Escrow، أو دخل الطالب/المعلم في النسخة الحالية</strong>. لذلك تمت صياغة المحور الاقتصادي ليكون مرتبطاً بـ <strong>العائد التشغيلي، تقليل الهدر، رفع جودة الخدمة، وزيادة القيمة التعليمية للمدرسة</strong> وليس الاقتصاد المالي أو السوق.</p>
+            </section>
+
+            <section id="section-1" class="content-section">
+                <h2>1) الرؤية والتموضع الاستراتيجي</h2>
+                
+                <h3>1.1 ما هو معزز في نسخته الأولى؟</h3>
+                <p>«معزز» هو <strong>نظام مدرسي ذكي</strong> يجمع بين إدارة معلومات الطلاب، الحضور، نداء الانصراف الآمن، التواصل، التقارير، والتعزيز السلوكي في تجربة واحدة تخدم الإدارة والمعلم والطالب وولي الأمر. النسخة الحالية تركز على ثلاثة محاور رئيسية واضحة: <strong>التشغيل المدرسي، الأمان والانصراف، وهندسة السلوك الإيجابي.</strong></p>
+                
+                <p>التموضع الصحيح أمام المدارس الكبرى:</p>
+                <div class="quote-box">
+                    معزز ليس برنامج حضور وغياب فقط، وليس SIS تقليدياً فقط؛ بل منصة تشغيل ذكية تساعد المدرسة على ضبط اليوم الدراسي، حماية الطلاب، رفع جودة التواصل، وتحويل السلوك الإيجابي إلى ثقافة قابلة للقياس والتحسين.
+                </div>
+
+                <h3>1.2 فلسفة «هندسة السلوك»</h3>
+                <p>هندسة السلوك في معزز تعني أن النظام لا يكتفي بتسجيل ما حدث، بل يساعد المدرسة على <strong>توجيه السلوك قبل أن يتحول إلى مشكلة.</strong></p>
+                
+                <div class="highlight-box">
+                    <p><strong>في الأنظمة التقليدية، السلوك غالباً يظهر في صورة:</strong></p>
+                    <ul>
+                        <li>مخالفة.</li>
+                        <li>إنذار.</li>
+                        <li>ملاحظة متأخرة.</li>
+                        <li>استدعاء ولي أمر بعد تفاقم المشكلة.</li>
+                    </ul>
+                    <hr style="margin: 1rem 0; border: 0; border-top: 1px solid var(--border);">
+                    <p><strong>أما في معزز، فالسلوك يصبح منظومة قابلة للمتابعة والتحفيز:</strong></p>
+                    <ul>
+                        <li>السلوك الإيجابي يتحول إلى نقاط XP.</li>
+                        <li>الطالب يرى تقدمه في صورة مستويات وأوسمة.</li>
+                        <li>المعلم يستطيع التعزيز فورياً دون إجراءات طويلة.</li>
+                        <li>الإدارة ترى مؤشرات السلوك على مستوى الفصل والمرحلة والمدرسة.</li>
+                        <li>ولي الأمر يتابع التحسن أو التراجع مبكراً.</li>
+                    </ul>
+                </div>
+                <p>الهدف النفسي ليس "إجبار الطالب على الانضباط"، بل <strong>جعل الانضباط تجربة مرئية ومكافأة نفسية واجتماعية.</strong></p>
+
+                <h3>1.3 العلاقة مع رؤية 2030 وبرنامج تنمية القدرات البشرية</h3>
+                <p>يمكن ربط معزز برؤية 2030 من خلال ثلاثة اتجاهات تسويقية قوية:</p>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اتجاه رؤية 2030</th>
+                                <th>كيف يخدمه معزز؟</th>
+                                <th>الرسالة التسويقية</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>التحول الرقمي</td>
+                                <td>رقمنة الحضور، الانصراف، التواصل، التقارير، السلوك</td>
+                                <td>"مدرستك تنتقل من الإدارة الورقية إلى الإدارة الذكية."</td>
+                            </tr>
+                            <tr>
+                                <td>تنمية القدرات البشرية</td>
+                                <td>تحفيز الطالب على الالتزام، المشاركة، الإنجاز، وتحمل المسؤولية</td>
+                                <td>"نحن لا ندير الطالب فقط، بل نساعده على بناء عادات أفضل."</td>
+                            </tr>
+                            <tr>
+                                <td>جودة الحياة</td>
+                                <td>تقليل زحام الانصراف، رفع أمان الاستلام، تحسين العلاقة بين المدرسة والأسرة</td>
+                                <td>"راحة ولي الأمر وثقة المدرسة تبدأ من تجربة يومية آمنة ومنظمة."</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="section-2" class="content-section">
+                <h2>2) الركائز الأربع للنسخة الأولى</h2>
+                <p>بناءً على نطاق النسخة الحالية، الركائز الأربع الصحيحة هي:</p>
+                <ol>
+                    <li>القيادة والتحكم.</li>
+                    <li>الأمان وراحة البال.</li>
+                    <li>التحفيز وهندسة السلوك.</li>
+                    <li>الكفاءة التشغيلية والعائد المؤسسي.</li>
+                </ol>
+                <p><em>ملاحظة مهمة: بدلاً من "التمكين الاقتصادي" المرتبط بالسوق والمحفظة، سنستخدم في النسخة الأولى مفهوم <strong>الكفاءة التشغيلية والعائد المؤسسي.</strong></em></p>
+
+                <div class="highlight-box">
+                    <h3>2.1 الركيزة الأولى: القيادة والتحكم (Governance & Control)</h3>
+                    <p>هذه الركيزة تخاطب المدير، المالك، المشرف العام، ووكيل المدرسة.<br>
+                    معزز يمنح الإدارة <strong>عيناً تنفيذية لحظية</strong> على المدرسة. بدلاً من الاعتماد على تقارير متأخرة أو ملفات Excel، ترى الإدارة مؤشرات التشغيل الأساسية في مكان واحد:</p>
+                    <ul>
+                        <li>الحضور اليومي.</li>
+                        <li>حالات الغياب والتأخير.</li>
+                        <li>مؤشرات السلوك.</li>
+                        <li>التفاعل التعليمي.</li>
+                        <li>التنبيهات الحرجة.</li>
+                        <li>أداء الفصول والمعلمين.</li>
+                        <li>الحالات التي تحتاج تدخلاً.</li>
+                    </ul>
+                    <div class="quote-box">الفائدة الجوهرية: الإدارة لا تشتري برنامجاً؛ الإدارة تشتري وضوحاً، سيطرة، وقراراً أسرع.</div>
+                    <p><strong>المنطق التقني:</strong> لوحة تحكم BI تعرض KPIs لحظية، نظام RBAC، تقارير قابلة للتصفية، سجل تدقيق Audit Trail، وتنبيهات مبنية على قواعد.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>2.2 الركيزة الثانية: الأمان وراحة البال (Safety & Peace of Mind)</h3>
+                    <p>هذه الركيزة هي أقوى مدخل بيعي للمدارس الأهلية والدولية، لأنها تعالج ألماً يومياً واضحاً: <strong>زحام الانصراف وخطورة تسليم الطالب لشخص غير مصرح.</strong></p>
+                    <p>نظام «نداء» يجعل استلام الطالب عملية منظمة:</p>
+                    <ul>
+                        <li>ولي الأمر يضغط "أنا وصلت".</li>
+                        <li>الزر لا يعمل إلا داخل نطاق المدرسة الجغرافي.</li>
+                        <li>يظهر الطلب فوراً للمشرف ويتم تجهيز الطالب بطريقة منظمة موثقة.</li>
+                    </ul>
+                    <div class="quote-box">الفائدة الجوهرية: تحويل بوابة المدرسة من نقطة فوضى وتوتر إلى تجربة آمنة ومنظمة تعكس احترافية المدرسة.</div>
+                    <p><strong>المنطق التقني:</strong> Geofencing، كشف Mock GPS، تحقق بيومتري، QR متغير، Real-time Socket، وإدارة المفوضين (Delegates).</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>2.3 الركيزة الثالثة: التحفيز وهندسة السلوك (Engagement & Behavior Engineering)</h3>
+                    <p>المدرسة لا تحتاج فقط إلى معرفة من حضر ومن غاب، بل تحتاج إلى بناء بيئة يكون فيها السلوك الجيد مرئياً ومكافأً.</p>
+                    <ul>
+                        <li>الطالب يحصل على XP وينتقل بين مستويات ويحصل على أوسمة.</li>
+                        <li>يرى ترتيبه في لوحات الصدارة ويستبدل نقاطه بمكافآت مدرسية.</li>
+                        <li>ولي الأمر يرى التحسن، والإدارة تقيس أثر السلوك.</li>
+                    </ul>
+                    <div class="quote-box">الفائدة الجوهرية: معزز يحول الانضباط من أوامر وعقوبات إلى ثقافة تحفيزية يعيشها الطالب يومياً.</div>
+                    <p><strong>المنطق التقني:</strong> Behavior Matrix، ميزانية نقاط للمعلم، Cooldown، Leaderboards، Intervention Plans.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>2.4 الركيزة الرابعة: الكفاءة التشغيلية والعائد المؤسسي (Operational Efficiency & Institutional ROI)</h3>
+                    <p>هذه الركيزة تتحدث بلغة الإدارة والمال. معزز يرفع العائد المؤسسي عبر تقليل الوقت الضائع، تقليل الاتصالات اليدوية والأخطاء الورقية، تحسين صورة المدرسة، ورفع رضا ولي الأمر.</p>
+                    <div class="quote-box">الفائدة الجوهرية: المدرسة لا تدفع مقابل برنامج؛ المدرسة تستثمر في تقليل الهدر، رفع الثقة، وتحسين تجربة العميل التعليمي.</div>
+                    
+                    <h4>أمثلة للعائد التشغيلي:</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>المجال</th>
+                                    <th>قبل معزز</th>
+                                    <th>بعد معزز</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>الانصراف</td><td>زحام، اتصالات، نداء يدوي</td><td>طلبات منظمة، تحقق، شاشة مشرف</td></tr>
+                                <tr><td>الحضور</td><td>دفتر أو إدخال بطيء</td><td>One-Tap + إشعارات</td></tr>
+                                <tr><td>التواصل</td><td>واتساب غير منظم</td><td>قنوات رسمية موثقة</td></tr>
+                                <tr><td>السلوك</td><td>ملاحظات متفرقة</td><td>نقاط، أوسمة، تقارير</td></tr>
+                                <tr><td>الإدارة</td><td>قرارات مبنية على انطباع</td><td>قرارات مبنية على مؤشرات BI</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-3" class="content-section">
+                <h2>3) تشريح الوحدات Modules</h2>
+
+                <h3>3.1 وحدة الإدارة المدرسية</h3>
+                <h4>أ) لوحة التحكم التنفيذية BI</h4>
+                <p>يجب أن تُباع للمدير بهذه اللغة:</p>
+                <div class="quote-box">"بدلاً من أن تنتظر نهاية الأسبوع لتعرف أين المشكلة، معزز يريك المشكلة أثناء حدوثها."</div>
+                <p><strong>ما تعرضه اللوحة:</strong> نسبة الحضور، الغائبين والمتأخرين، أكثر الفصول غياباً، مؤشرات السلوك الإيجابي والسلبي، تنبيهات غير مغلقة، رسائل تحتاج رد.</p>
+                <p><strong>Business Logic:</strong> كل مؤشر يقود إلى Action. الإجراءات الحساسة تسجل في Audit Log. إمكانية التصفية المتقدمة.</p>
+
+                <h4>ب) إدارة الصلاحيات RBAC</h4>
+                <p>صلاحيات دقيقة حسب الدور والنطاق (مدير يرى الكل، وكيل يرى مرحلته، معلم يرى طلابه، مشرف بوابة يرى شاشة نداء فقط).</p>
+                <div class="quote-box">الرسالة البيعية: "كل شخص داخل المدرسة يرى ما يحتاجه فقط، فلا فوضى صلاحيات ولا كشف بيانات غير ضروري."</div>
+
+                <h4>ج) Lite ERP المالي والتشغيلي</h4>
+                <p>إدارة تشغيلية مبسطة تشمل هيكلة المدرسة، السنوات الدراسية، الموظفين، الجداول، ومتابعة الحضور.</p>
+                <div class="quote-box">الرسالة البيعية: "معزز يمنح المدرسة ERP خفيفاً يخدم التشغيل اليومي دون تعقيد أنظمة المؤسسات الثقيلة."</div>
+
+                <hr style="margin: 2rem 0; border: 1px solid var(--border);">
+
+                <h3>3.2 وحدة المعلم</h3>
+                <h4>أ) One-Tap Attendance & Behavior</h4>
+                <p>صُممت تجربة المعلم على مبدأ: <strong>أقل عدد من الضغطات، أعلى قيمة تشغيلية.</strong></p>
+                <p>الكل حاضر افتراضياً، يحدد الغائب فقط، يمنح نقاطاً بضغطة.</p>
+                <div class="quote-box">الرسالة البيعية: "معزز لا يضيف عبئاً على المعلم؛ بل يختصر التحضير والسلوك والتواصل في لحظات."</div>
+
+                <h4>ب) حماية الخصوصية Office Hours</h4>
+                <p>قنوات تواصل رسمية، عدم كشف رقم المعلم، ساعات عمل محددة، وردود آلية خارج وقت الدوام.</p>
+                <div class="quote-box">الرسالة البيعية: "المعلم يتواصل باحترافية دون أن يفقد خصوصيته أو يتحول هاتفه الشخصي إلى مركز خدمة عملاء."</div>
+
+                <h4>ج) دور المعلم في التعزيز</h4>
+                <p>أدوات المعلم سريعة، واضحة، مرئية، تعمل على الجوال، لإعطاء Feedback فوري.</p>
+
+                <hr style="margin: 2rem 0; border: 1px solid var(--border);">
+
+                <h3>3.3 وحدة الطالب</h3>
+                <h4>أ) رحلة التلعيب XP</h4>
+                <p>الطالب يرى نفسه في رحلة تقدم من خلال: XP, Levels, Badges, Achievements, Leaderboards, Rewards, Progress Bar, Timeline.</p>
+                <p><strong>Business Logic:</strong> النقاط تمنح لسبب محدد. الأوسمة تعتمد على شروط (حضور متواصل، واجبات مكتملة).</p>
+                <div class="quote-box">الرسالة البيعية: "معزز يجعل الطالب يرى أثر اجتهاده فوراً، فيتحول الالتزام إلى تجربة ممتعة لا مجرد واجب مفروض."</div>
+
+                <h4>ب) الطالب كجزء من بيئة مدرسية محفزة</h4>
+                <p>الطالب يكتسب عادات الانضباط والإنجاز والمسؤولية داخل بيئة محفزة (لا نتحدث عن دخل مالي للطالب في النسخة الأولى).</p>
+
+                <hr style="margin: 2rem 0; border: 1px solid var(--border);">
+
+                <h3>3.4 وحدة ولي الأمر</h3>
+                <h4>أ) نداء Geofencing</h4>
+                <div class="quote-box">"لن يتم استدعاء الطالب إلا عندما يكون ولي الأمر قريباً فعلاً من المدرسة."</div>
+                <p>يعمل عبر التحقق من الموقع (نطاق مثل 500 متر)، منع Mock GPS، تحقق بيومتري، وإصدار QR قصير الصلاحية.</p>
+
+                <h4>ب) إدارة المفوضين</h4>
+                <p>السائق أو الجد يمكنهم الاستلام بصلاحية محدودة لميزة النداء فقط، دون رؤية الدرجات أو الرسائل.</p>
+                <div class="quote-box">الرسالة البيعية: "معزز يمنح الأسرة مرونة في الاستلام دون التضحية بخصوصية الطالب أو أمنه."</div>
+
+                <h4>ج) متابعة ولي الأمر</h4>
+                <p>لوحة بسيطة تجيب على الأسئلة السريعة: هل حضر؟ تأخر؟ لديه واجب؟ حصل على مكافأة؟ من خلال ملخص شامل.</p>
+            </section>
+
+            <section id="section-4" class="content-section">
+                <h2>4) الميزة التنافسية Competitive Edge</h2>
+                <h3>لماذا معزز مختلف عن أنظمة إدارة المدارس التقليدية؟</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المقارنة</th>
+                                <th>أنظمة تقليدية</th>
+                                <th>معزز</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>الفلسفة</td><td>تسجيل بيانات</td><td>تشغيل وتحفيز وتحسين</td></tr>
+                            <tr><td>الحضور</td><td>إدخال حالة</td><td>One-Tap + تنبيه + تقارير</td></tr>
+                            <tr><td>الانصراف</td><td>نداء يدوي أو فوضى بوابة</td><td>Geofencing + Biometric + Queue</td></tr>
+                            <tr><td>السلوك</td><td>مخالفات وملاحظات</td><td>XP + أوسمة + مكافآت + خطط تدخل</td></tr>
+                            <tr><td>ولي الأمر</td><td>مستقبل إشعارات فقط</td><td>شريك يومي في المتابعة</td></tr>
+                            <tr><td>المعلم</td><td>مستخدم إدخال بيانات</td><td>أداة سريعة تحمي وقته وخصوصيته</td></tr>
+                            <tr><td>الإدارة</td><td>تقارير متأخرة</td><td>BI لحظي وإجراءات مباشرة</td></tr>
+                            <tr><td>الواجهة</td><td>معقدة ورسمية</td><td>حيوية، سهلة، تشبه التطبيقات الحديثة</td></tr>
+                            <tr><td>القيمة</td><td>رقمنة إدارية</td><td>تجربة مدرسية ذكية متكاملة</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="quote-box" style="text-align: center; border-right: none; border-bottom: 5px solid var(--accent); border-radius: 8px;">
+                    الرسالة المختصرة: "الأنظمة التقليدية تخبرك ماذا حدث. معزز يساعدك على إدارة ما يحدث الآن، وتحسين ما سيحدث غداً."
+                </div>
+            </section>
+
+            <section id="section-5" class="content-section">
+                <h2>5) مصفوفة الإقناع البيعي</h2>
+                <h3>أهم 5 نقاط ألم لدى المدارس وحل معزز</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>نقطة الألم</th>
+                                <th>وصف المشكلة</th>
+                                <th>حل معزز</th>
+                                <th>الجملة البيعية</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>زحام البوابات والانصراف</td>
+                                <td>وقت ضائع، توتر، مخاطر أمنية، شكاوى</td>
+                                <td>نداء Geofencing + تحقق بيومتري + شاشة مشرف</td>
+                                <td>"حوّل الانصراف من أزمة يومية إلى تجربة آمنة في دقائق."</td>
+                            </tr>
+                            <tr>
+                                <td>ضعف التواصل مع ولي الأمر</td>
+                                <td>واتساب عشوائي، اتصالات، عدم توثيق</td>
+                                <td>مركز تواصل رسمي + إشعارات + أرشفة</td>
+                                <td>"كل رسالة موثقة، وكل ولي أمر في الصورة."</td>
+                            </tr>
+                            <tr>
+                                <td>ضياع وقت المعلم</td>
+                                <td>حضور يدوي، ملاحظات ورقية، إدخال متكرر</td>
+                                <td>One-Tap + Behavior Grid + Data Sync</td>
+                                <td>"أعد للمعلم وقته داخل الحصة."</td>
+                            </tr>
+                            <tr>
+                                <td>ضعف الدافعية والانضباط</td>
+                                <td>الطالب لا يتفاعل مع العقوبات التقليدية</td>
+                                <td>XP + مستويات + أوسمة + مكافآت</td>
+                                <td>"اجعل الطالب يتسابق للسلوك الإيجابي بدلاً من مقاومة التعليمات."</td>
+                            </tr>
+                            <tr>
+                                <td>قرارات إدارية متأخرة</td>
+                                <td>الإدارة تعرف المشكلة بعد وقوعها</td>
+                                <td>BI Dashboard + Alerts + Reports</td>
+                                <td>"شاهد مؤشرات مدرستك لحظة بلحظة، واتخذ القرار قبل تفاقم المشكلة."</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="section-6" class="content-section">
+                <h2>6) خارطة الطريق المستقبلية</h2>
+                <p><em>هذه النقاط تُذكر كـ <strong>رؤية مستقبلية</strong>، وليست بالضرورة ضمن النسخة الأولى.</em></p>
+
+                <h3>6.1 الذكاء الاصطناعي للتنبؤ بالسلوك</h3>
+                <p>مستقبلاً، يمكن لمعزز تحليل انخفاض الحضور، التأخير، تراجع النقاط ليخرج بتنبيه استباقي.</p>
+                <div class="quote-box">القيمة البيعية المستقبلية: "بدلاً من علاج المشكلة بعد حدوثها، معزز يساعد المدرسة على توقعها مبكراً."</div>
+
+                <h3>6.2 تتبع الباصات الذكي</h3>
+                <p>امتداد لمنظومة الأمان: تتبع موقع الباص، إشعار اقتراب، ربط الباص بالحضور والانصراف.</p>
+                <div class="quote-box">القيمة البيعية المستقبلية: "الأمان لا يبدأ عند بوابة المدرسة فقط؛ بل من لحظة خروج الطالب من المنزل حتى عودته."</div>
+
+                <h3>6.3 تحليلات جودة المدرسة</h3>
+                <p>مؤشرات مستقبلية مثل: أكثر الفصول التزاماً، أثر التعزيز على الحضور، ومؤشرات رضا أولياء الأمور.</p>
+            </section>
+
+            <section id="section-7" class="content-section">
+                <h2>7) قاموس سريع للمسوقين</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المصطلح</th>
+                                <th>الشرح البسيط</th>
+                                <th>كيف يبيعه المسوق؟</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>SIS</td><td>نظام معلومات الطلاب</td><td>"ملف الطالب الكامل في مكان واحد."</td></tr>
+                            <tr><td>BI Dashboard</td><td>لوحة مؤشرات تنفيذية</td><td>"المدير يرى المدرسة لحظة بلحظة."</td></tr>
+                            <tr><td>RBAC</td><td>صلاحيات حسب الدور</td><td>"كل مستخدم يرى ما يخصه فقط."</td></tr>
+                            <tr><td>Smart Dismissal / نداء</td><td>نظام انصراف ذكي</td><td>"انتهاء فوضى البوابة."</td></tr>
+                            <tr><td>Geofencing</td><td>نطاق جغرافي لتفعيل الإجراء</td><td>"الزر لا يعمل إلا عند الوصول فعلاً."</td></tr>
+                            <tr><td>Mock GPS Detection</td><td>كشف الموقع الوهمي</td><td>"حماية من التحايل."</td></tr>
+                            <tr><td>Biometric</td><td>بصمة وجه أو إصبع</td><td>"لا استلام إلا من الشخص المصرح."</td></tr>
+                            <tr><td>QR متغير</td><td>كود قصير الصلاحية</td><td>"حتى لو صُوّر الكود لا يمكن استخدامه لاحقاً."</td></tr>
+                            <tr><td>Real-time Queue</td><td>شاشة لحظية للمشرف</td><td>"المشرف يرى الطلب فوراً."</td></tr>
+                            <tr><td>One-Tap Attendance</td><td>حضور بضغطة واحدة</td><td>"توفير وقت الحصة."</td></tr>
+                            <tr><td>Offline Sync</td><td>العمل دون إنترنت ثم المزامنة</td><td>"النظام لا يتوقف بسبب ضعف الشبكة."</td></tr>
+                            <tr><td>XP</td><td>نقاط خبرة</td><td>"كل سلوك إيجابي يصبح تقدماً مرئياً."</td></tr>
+                            <tr><td>Badges</td><td>أوسمة</td><td>"تقدير معنوي يحفز الطالب."</td></tr>
+                            <tr><td>Leaderboard</td><td>لوحة صدارة</td><td>"منافسة إيجابية داخل المدرسة."</td></tr>
+                            <tr><td>Behavior Matrix</td><td>مصفوفة السلوك</td><td>"توحيد معايير التعزيز والمخالفات."</td></tr>
+                            <tr><td>Audit Trail</td><td>سجل تدقيق</td><td>"كل عملية حساسة موثقة."</td></tr>
+                            <tr><td>Office Hours</td><td>ساعات تواصل المعلم</td><td>"حماية خصوصية المعلم وتنظيم التواصل."</td></tr>
+                            <tr><td>Delegate</td><td>مفوض استلام</td><td>"مرونة للأسرة دون كشف بيانات الطالب."</td></tr>
+                            <tr><td>Intervention Plan</td><td>خطة تدخل</td><td>"تحويل المشكلة السلوكية إلى متابعة منظمة."</td></tr>
+                            <tr><td>Lite ERP</td><td>إدارة تشغيلية مبسطة</td><td>"تشغيل المدرسة دون تعقيد الأنظمة الثقيلة."</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="section-8" class="content-section">
+                <h2>8) أسئلة متوقعة من المدارس وإجاباتها (النسخة الأساسية)</h2>
+                
+                <details>
+                    <summary>1: هل معزز بديل كامل لنظام إدارة المدرسة الحالي؟</summary>
+                    <div class="faq-content">
+                        يعتمد ذلك على نطاق المدرسة والنظام المستخدم حالياً. في النسخة الأولى، معزز يغطي أهم العمليات اليومية: الطلاب، الحضور، النداء، التواصل، التعزيز، التقارير، والصلاحيات. يمكن استخدامه كنظام أساسي أو كنظام مساعد يبدأ من نقاط الألم الكبرى مثل الانصراف والحضور ثم يتوسع تدريجياً.
+                    </div>
+                </details>
+                <details>
+                    <summary>2: ما أقوى ميزة تجعل المدرسة تبدأ بمعزز؟</summary>
+                    <div class="faq-content">
+                        أقوى مدخل هو نظام «نداء»؛ لأنه يحل ألماً يومياً واضحاً لكل مدرسة: زحام البوابات، تأخر الاستلام، توتر أولياء الأمور، ومخاطر تسليم الطالب. بعد نجاح نداء، يسهل تفعيل الحضور، التواصل، والتعزيز السلوكي.
+                    </div>
+                </details>
+                <details>
+                    <summary>3: هل يحتاج ولي الأمر إلى تدريب؟</summary>
+                    <div class="faq-content">
+                        لا يحتاج إلى تدريب معقد. تجربة ولي الأمر مصممة لتكون بسيطة جداً: رؤية الأبناء، ضغط "أنا وصلت"، استقبال الإشعارات، متابعة الحضور والسلوك، وتبرير الغياب. الهدف أن يستخدم ولي الأمر التطبيق كما يستخدم أي تطبيق يومي بسيط.
+                    </div>
+                </details>
+            </section>
+
+            <section id="section-9" class="content-section">
+                <h2>9) تصنيفات الأسئلة العميقة والمتقدمة (FAQs)</h2>
+                
+                <div class="notice-box">
+                    <i class="fas fa-info-circle"></i> <strong>تنبيه للمسوقين:</strong> بعض الأسئلة والإجابات في الأقسام التالية (مثل الإشارة لـ "سوق العمل"، "الضمان"، و "المحفظة") تمثل <strong>رؤية معزز المتكاملة والمستقبلية</strong> ويمكن استخدامها لتوضيح مدى تطور النظام المستقبلي للمستثمرين أو الإدارات التي تفكر على المدى البعيد، حتى وإن لم تكن ضمن النسخة الأولى التشغيلية.
+                </div>
+
+                <div class="category-header bg-blue">
+                    <h3><i class="fas fa-school"></i> الفئة 1: إدارة المدرسة (كوابيس الإدارة)</h3>
+                </div>
+                <details>
+                    <summary>أخاف أن يتحول التطبيق لمنصة تنمر (Cyberbullying) بين الطلاب في الشات.</summary>
+                    <div class="faq-content">سؤال في محله. لذلك، الشات في 'وضع المدرسة' ليس مفتوحاً تماماً. لا يوجد شات خاص بين طالب وطالب (Direct Message) إلا إذا سمحت المدرسة. شات الفصل العام مراقب من المعلم، ويحتوي على فلتر ذكي (AI Filter) يحجب الكلمات المسيئة تلقائياً ويبلغ الإدارة فوراً. بيئتنا آمنة 100%.</div>
+                </details>
+                <details>
+                    <summary>هل سيتعارض هذا مع نظام الوزارة (نور/مدرستي)؟ هل سنضطر لإدخال البيانات مرتين؟</summary>
+                    <div class="faq-content">نحن لا ننافس الوزارة في رصد الدرجات الرسمية. نحن نركز على السلوك اليومي الذي لا تغطيه أنظمة الوزارة. وبالنسبة للبيانات، نحن نوفر خاصية 'استيراد الطلاب' من ملف Excel بضغطة زر، لن يضيع وقتكم في الإدخال.</div>
+                </details>
+                <details>
+                    <summary>ماذا لو قام طالب 'هكر' باختراق النظام وزيادة نقاطه ونقاط أصدقائه؟ ستكون فضيحة للمدرسة.</summary>
+                    <div class="faq-content">نحن نستخدم بنية تحتية سحابية مشفرة (Encrpyted Cloud Infrastructure) مع سجلات تدقيق (Audit Logs) غير قابلة للتعديل. أي تغيير غير طبيعي في النقاط (مثلاً: طالب حصل على 1000 نقطة في دقيقة) يتم رصده فوراً بواسطة نظام كشف الاحتيال (Fraud Detection) ويتم تجميد الحساب وإشعار مسؤول النظام.</div>
+                </details>
+                <details>
+                    <summary>ماذا لو أدمن الطلاب على جمع النقاط وأهملوا القيمة الحقيقية للعلم؟</summary>
+                    <div class="faq-content">التحفيز الخارجي (النقاط) هو البوابة للتحفيز الداخلي (حب العلم). نحن نستخدم النقاط كطعم لجر الطالب إلى الانضباط، وبمجرد أن ينضبط، سيبدأ في تذوق متعة الإنجاز والتعلم. هذه نظرية تربوية مثبتة عالمياً.</div>
+                </details>
+                <details>
+                    <summary>هل يمكن للطالب استخدام التطبيق أثناء الحصة وتشتيت زملائه؟</summary>
+                    <div class="faq-content">لدينا ميزة 'Classroom Lock'. يمكن للمعلم أو الإدارة تفعيل هذا الوضع، مما يمنع وصول الطلاب لأي ميزة ترفيهية أو 'سوق العمل' أثناء ساعات الدوام المدرسي، ويحصر التطبيق فقط في استقبال المهام التعليمية.</div>
+                </details>
+
+                <div class="category-header bg-green">
+                    <h3><i class="fas fa-users"></i> الفئة 2: أولياء الأمور (الخوف، المال، والشاشات)</h3>
+                </div>
+                <details>
+                    <summary>ابني مدمن أصلاً على الشاشات (تيك توك ويوتيوب)، هل تريدون زيادة وقت جلوسه أمام الشاشة؟</summary>
+                    <div class="faq-content">نحن لا نزيد 'وقت الشاشة' (Screen Time)، نحن نغير 'نوعية الوقت'. بدلاً من الاستهلاك السلبي التافه للمحتوى، نحن نحول وقته إلى 'إنتاجية نشطة' (Active Productivity). هو سيمسك الهاتف ليرى واجبه، أو لينهي تصميم شعار لعميل. نحن نحوله من مستهلك إلى منتج.</div>
+                </details>
+                <details>
+                    <summary>ابني صغير، كيف أضمن أنه لا يتحدث مع غرباء في 'سوق العمل'؟</summary>
+                    <div class="faq-content">ميزة 'السوق المفتوح' مغلقة افتراضياً لمن هم دون سن 18 عاماً. لا يمكن تفعيلها إلا بموافقة ولي الأمر من حسابه الخاص (Parental Control). وحتى عند تفعيلها، المحادثات مراقبة، ولا يتم تبادل أرقام هواتف، كل شيء يتم داخل التطبيق تحت إشرافنا.</div>
+                </details>
+                <details>
+                    <summary>هل سيشعر ابني بالنقص إذا لم أستطع شراء 'نقاط' أو مكافآت له مثل زملائه الأغنياء؟</summary>
+                    <div class="faq-content">نقطة مهمة جداً. في 'معزز'، النقاط لا تُشترى بالمال! النقاط تكتسب فقط بالمجهود والسلوك الحسن. ابن الغني وابن الفقير متساويان تماماً، والمجتهد هو من يجمع نقاطاً أكثر. هذا يعلمهم قيمة العمل وليس قيمة المال.</div>
+                </details>
+                <details>
+                    <summary>أرفض وضع صورة ابنتي الشخصية في التطبيق أو السوق خوفاً من التحرش أو انتهاك الخصوصية.</summary>
+                    <div class="faq-content">نحن نحترم تقاليدنا وخصوصيتنا تماماً. التطبيق يوفر نظام 'الأفاتار' (Avatars) كبديل كامل. يمكن للطالبة اختيار شخصية كرتونية تمثلها، ولا يُطلب أبداً رفع صور شخصية حقيقية لكي يعمل التطبيق.</div>
+                </details>
+                <details>
+                    <summary>ماذا لو فقد ابني هاتفه؟ هل تضيع نقاطه وجهده؟</summary>
+                    <div class="faq-content">أبداً. حسابه سحابي (Cloud-based). بمجرد الدخول من أي هاتف آخر أو جهاز لوحي، سيجد كل نقاطه ومستواه وشاراته بانتظاره.</div>
+                </details>
+
+                <div class="category-header bg-purple">
+                    <h3><i class="fas fa-brain"></i> الفئة 3: المعلمون (العبء، التحيز، والتقنية)</h3>
+                </div>
+                <details>
+                    <summary>هل سيتم استخدام تقارير التطبيق لمحاسبتي وتقييم أدائي من قبل الإدارة؟</summary>
+                    <div class="faq-content">التطبيق صمم ليكون مساعداً لك وليس جاسوساً عليك. التقارير تظهر نشاط الفصل بشكل عام. هدفنا هو تمكينك من السيطرة على فصلك، وليس إضافة ضغط عليك.</div>
+                </details>
+                <details>
+                    <summary>ليس لدي وقت في الحصة لإخراج جوالي وتسجيل نقاط لكل طالب، هذا سيقطع الدرس.</summary>
+                    <div class="faq-content">لقد صممنا واجهة 'السحب السريع' (Quick Swipe). يمكنك اختيار 'الفصل كاملاً' وإعطاء نقطة للجميع بضغطة واحدة، أو اختيار مجموعة طلاب محددة مسبقاً (المشاغبين مثلاً) وخصم نقاط في ثانيتين. العملية مصممة لتكون أسرع من نطق اسم الطالب.</div>
+                </details>
+                <details>
+                    <summary>الأهالي سيزعجونني برسائل في منتصف الليل إذا فعلت الشات.</summary>
+                    <div class="faq-content">لقد فكرنا في ذلك. التطبيق لديه ميزة 'ساعات الهدوء' (Quiet Hours). يمكنك ضبطها لتعمل من 7 صباحاً إلى 2 ظهراً فقط. أي رسالة تأتي بعد ذلك، يتلقى ولي الأمر رداً آلياً: 'المعلم في وقت راحة الآن، سيتم الرد غداً صباحاً'. خصوصيتك ووقت راحتك خط أحمر.</div>
+                </details>
+                <details>
+                    <summary>سيتهمني الطلاب والأهالي بـ 'التحيز' (Favoritism) إذا أعطيت نقاطاً لطالب دون آخر.</summary>
+                    <div class="faq-content">النظام يحميك من هذا. كل نقطة تُعطى يجب أن تكون مربوطة بـ 'معيار سلوكي' محدد مسبقاً (مثل: المشاركة الفعالة، الحضور مبكراً). هذا يجعل التقييم موضوعياً وموثقاً، وعندما يسألك ولي الأمر، تفتح السجل وتريه: 'ابنك حصل على النقاط في هذا الوقت لهذا السبب'.</div>
+                </details>
+
+                <div class="category-header bg-yellow">
+                    <h3><i class="fas fa-chart-line"></i> الفئة 4: المستثمرون (المال، النمو، والمخاطر)</h3>
+                </div>
+                <details>
+                    <summary>لماذا قد تدفع مدرسة لك بينما توجد جروبات واتساب مجانية؟</summary>
+                    <div class="faq-content">الواتساب فوضوي، غير رسمي، يسبب مشاكل خصوصية (نشر أرقام المعلمين)، ولا يوجد به تحفيز للطلاب. نحن نبيع 'النظام' و 'راحة البال' و 'التحفيز'، وهي أشياء لا يستطيع الواتساب تقديمها.</div>
+                </details>
+                <details>
+                    <summary>كيف ستمنع الطلاب من الغش في الواجبات باستخدام الذكاء الاصطناعي؟</summary>
+                    <div class="faq-content">نحن لا نمنع الـ AI، بل ندمجه. نحن نشجع المعلمين على وضع مهام إبداعية وليست تقليدية. بالإضافة، لدينا في خوارزمياتنا كشف للأنماط غير الطبيعية (مثل حل واجب يحتاج ساعة في دقيقتين)، وننبه المعلم لذلك.</div>
+                </details>
+                <details>
+                    <summary>ما هي استراتيجية الخروج (Exit Strategy)؟ هل يمكن بيع البيانات لشركات التوظيف؟</summary>
+                    <div class="faq-content">البيانات هي النفط الجديد، ولكن بضوابط. نحن نبني 'ملفات تعريفية للمهارات' (Skill Profiles) للطلاب منذ الصغر. بعد تخرج الطالب، وبموافقته، يمكن ربطه بشركات تبحث عن مبدعين، وهنا تكمن قيمة هائلة، ليس في بيع البيانات الخام، بل في 'التوظيف المبني على المهارة المثبتة'.</div>
+                </details>
+
+            </section>
+
+            <section id="section-10" class="content-section">
+                <h2>10) المناظرات الاستراتيجية (Strategic Debates)</h2>
+                <p>مجموعة من الردود الدقيقة على أسئلة هجومية أو جدلية قد يطرحها المختصون أثناء الاجتماعات.</p>
+
+                <div class="debate-axis">
+                    <h3>المحور الأول: الجبهة التربوية والأكاديمية <span class="target-badge">للمدراء التربويين والمشرفين</span></h3>
+                    
+                    <details>
+                        <summary>
+                            <div class="summary-content">تطبيقكم يركز على 'الكمية' وليس 'الكيفية'. الطالب سيحل الواجب بأي كلام ليأخذ النقطة فقط. <span class="q-badge badge-trap">سؤال فخ</span></div>
+                        </summary>
+                        <div class="faq-content">ملاحظة ذكية جداً. لهذا السبب نظام 'معزز' لا يمنح النقاط أوتوماتيكياً في المهام الأكاديمية. لدينا ميزة 'الموافقة المشروطة': المعلم يرى الحل أولاً، ويمكنه الضغط على زر 'إعادة للإصلاح' (Return for Revision). هنا يتعلم الطالب درساً أهم: الجودة هي الطريق الوحيد للمكافأة.</div>
+                    </details>
+                    <details>
+                        <summary>
+                            <div class="summary-content">هذا النظام قد يحبط الطلاب 'الضعفاء دراسياً'. سيجدون أنفسهم في ذيل القائمة مما يدمر ثقتهم. <span class="q-badge badge-trap">سؤال فخ</span></div>
+                        </summary>
+                        <div class="faq-content">نحن نعالج هذا بذكاء عبر 'تنوع مصادر النقاط'. في الأنظمة التقليدية، الذكي فقط هو من ينجح. في 'معزز'، الطالب الضعيف دراسياً يمكنه جمع نقاط ضخمة من خلال: السلوك الحسن، المساعدة في تنظيف الفصل، أو الإبداع الفني. نحن نعطي كل طالب فرصة ليكون 'بطلاً' في مجاله الخاص.</div>
+                    </details>
+                    <details>
+                        <summary>
+                            <div class="summary-content">أنتم تستخدمون 'المدرسة السلوكية' (الشرطية) وهي مدرسة قديمة. التعليم الحديث يعتمد على الدافع الداخلي. <span class="q-badge badge-trap">سؤال فخ</span></div>
+                        </summary>
+                        <div class="faq-content">كلام نظري جميل، لكن الواقع يقول إنك تحتاج لبناء العادة أولاً. نحن نستخدم السلوكية كـ 'سقالة' (Scaffolding). نبدأ بالمكافآت الخارجية لبناء الالتزام، ثم تدريجياً، ومن خلال تصميم المهام الممتعة، نتحول لتعزيز 'الكفاءة' و'الاستقلالية' (نظرية تحديد المصير SDT)، مما يولد الدافع الداخلي.</div>
+                    </details>
+                    <details>
+                        <summary>
+                            <div class="summary-content">طلاب الثانوي سيشعرون أن هذا النظام 'طفولي' (Cringe). كيف ستقنع مراهقاً عمره 17 سنة؟ <span class="q-badge badge-trap">سؤال فخ</span></div>
+                        </summary>
+                        <div class="faq-content">أتفق معك تماماً، طلاب الثانوي لا يريدون كرتوناً. لذلك، واجهة التطبيق تتغير جذرياً بناءً على المرحلة العمرية (UI Adaptation). لطلاب الثانوي، التطبيق يتحول ليشبه LinkedIn. المكافآت ليست 'ألعاباً'، بل 'سيرة ذاتية' (CV) وتقييمات مهارات حقيقية. نحن نخاطب فيهم 'الرجل/المرأة' المستقبلي.</div>
+                    </details>
+                </div>
+
+                <div class="debate-axis">
+                    <h3>المحور الثاني: الجبهة الأخلاقية والقانونية <span class="target-badge">للمستشارين القانونيين والأهالي</span></h3>
+                    <details>
+                        <summary>
+                            <div class="summary-content">ماذا عن خصوصية البيانات؟ هل تبيعون بيانات أطفالنا لشركات الإعلانات؟ <span class="q-badge badge-mine">سؤال لغم</span></div>
+                        </summary>
+                        <div class="faq-content">نموذج ربحنا شفاف: نحن نربح من (الاشتراكات والعمولات)، وليس من بيع البيانات. نحن نلتزم بقانون حماية البيانات الشخصية السعودي (PDPL). بيانات الطلاب مشفرة ولا يمكن لأي طرف ثالث الوصول إليها.</div>
+                    </details>
+                </div>
+
+                <div class="debate-axis">
+                    <h3>المحور الثالث: الجبهة التقنية والتشغيلية <span class="target-badge">مسؤولي الـ IT</span></h3>
+                    <details>
+                        <summary>
+                            <div class="summary-content">لدينا 2000 طالب. هل عملية إدخال بياناتهم يدوياً ستستغرق شهوراً؟ <span class="q-badge badge-tech">سؤال تقني</span></div>
+                        </summary>
+                        <div class="faq-content">لن تأخذ أكثر من 10 دقائق. نحن ندعم التكامل (Integration) مع ملفات Excel. صدروا أسماء الطلاب من نظام 'نور' أو نظامكم الحالي، ارفعوا الملف لـ 'معزز'، وسيقوم نظامنا بإنشاء الفصول وتوزيع الطلاب وإرسال دعوات للأهالي بضغطة زر واحدة.</div>
+                    </details>
+                    <details>
+                        <summary>
+                            <div class="summary-content">أين تستضيفون البيانات؟ القوانين تمنع استضافة بيانات الطلاب خارج المملكة. <span class="q-badge badge-tech">سؤال تقني</span></div>
+                        </summary>
+                        <div class="faq-content">نلتزم تماماً بسيادة البيانات (Data Sovereignty). خوادمنا مستضافة محلياً داخل المملكة العربية السعودية (مثال: سحابة STC أو Oracle Jeddah Cloud) لضمان الامتثال التام للأنظمة الحكومية وسرعة الاستجابة.</div>
+                    </details>
+                </div>
+
+                <div class="debate-axis">
+                    <h3>المحور الرابع: الجبهة المالية <span class="target-badge">للملاك والمستثمرين</span></h3>
+                    
+                    <details>
+                        <summary>
+                            <div class="summary-content">لماذا أدفع اشتراكاً سنوياً بينما يمكنني استخدام Google Classroom مجاناً؟ <span class="q-badge badge-owner">سؤال المالك</span></div>
+                        </summary>
+                        <div class="faq-content">Google Classroom هو نظام 'تخزين ملفات' ممتاز، لكنه ليس نظام 'بناء هوية'. جوجل لا يحل مشكلة سلوك الطلاب ولا يجعل ولي الأمر سعيداً بإشعارات إيجابية. أنت تدفع لنا لكي تشتري 'سمعة المدرسة المتطورة' و 'راحة بال المعلمين'.</div>
+                    </details>
+                    <details>
+                        <summary>
+                            <div class="summary-content">كيف ستنافس إذا قامت 'مدرستي' بإضافة ميزات مشابهة؟ <span class="q-badge badge-owner">سؤال المستثمر</span></div>
+                        </summary>
+                        <div class="faq-content">المنصات الحكومية بطيئة الحركة وتركز على 'الرسميات'. نحن نركز على 'السوق' و 'المجتمع'. حتى لو أضافت مدرستي نقاطاً، لن تضيف 'سوق عمل حر' ولن تضيف 'تواصل اجتماعي مرن'. المستخدمون سيبقون معنا لأنهم بنوا 'سمعة تجارية' و 'محفظة مالية' داخل معزز.</div>
+                    </details>
+                    <details>
+                        <summary>
+                            <div class="summary-content">الميزانية مضغوطة هذه السنة. هل يمكن أن يمول التطبيق نفسه؟ <span class="q-badge badge-owner">سؤال المالك</span></div>
+                        </summary>
+                        <div class="faq-content">نعم، لدينا نموذج 'المدرسة الشريكة'. يمكن للمدرسة تفعيل خيار أخذ نسبة بسيطة (مثلاً 5%) من عمليات 'سوق العمل' التي تتم بين طلابها داخل الحرم المدرسي. هذا يحول التطبيق من 'مركز تكلفة' إلى 'مركز ربح' للمدرسة، ويغطي تكاليف التشغيل.</div>
+                    </details>
+                </div>
+
+            </section>
+
+            <section id="section-11" class="content-section">
+                <h2>11) رسائل بيعية محفوظة حسب الفئة</h2>
+                
+                <div class="highlight-box">
+                    <h4 style="color: var(--secondary);"><i class="fas fa-building"></i> للإدارة</h4>
+                    <p>"معزز يمنحك مدرسة مرئية لحظة بلحظة: حضور، انصراف، سلوك، تواصل، وتقارير في منصة واحدة."</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--secondary);"><i class="fas fa-user-tie"></i> لمالك المدرسة</h4>
+                    <p>"معزز يرفع جودة الخدمة التي يشعر بها ولي الأمر، ويحول العمليات اليومية من مصدر شكاوى إلى نقطة قوة تنافسية."</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--secondary);"><i class="fas fa-chalkboard-teacher"></i> للمعلم</h4>
+                    <p>"معزز يختصر وقتك، يوثق عملك، ويحمي خصوصيتك."</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--secondary);"><i class="fas fa-users"></i> لولي الأمر</h4>
+                    <p>"معزز يمنحك راحة البال: تعرف متى حضر ابنك، متى خرج، وكيف يتطور سلوكه."</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--secondary);"><i class="fas fa-user-graduate"></i> للطالب</h4>
+                    <p>"في معزز، كل التزام له قيمة، وكل إنجاز يظهر، وكل تقدم يُكافأ."</p>
+                </div>
+            </section>
+
+            <section id="section-12" class="content-section">
+                <h2>12) الخلاصة التي يجب أن يحفظها كل مسوق</h2>
+                
+                <div class="conclusion-box">
+                    <h2><i class="fas fa-star"></i> الخلاصة</h2>
+                    <p style="margin-top: 1.5rem; line-height: 2;">
+                        <strong>معزز في نسخته الأولى هو منصة تشغيل مدرسي ذكية تبدأ من أقوى ألم يومي: الانصراف والأمان، ثم تمتد إلى الحضور، التواصل، السلوك، والتقارير. ميزته ليست أنه يسجل البيانات فقط، بل أنه يحول المدرسة إلى بيئة أكثر أماناً، وضوحاً، وتحفيزاً.</strong>
+                    </p>
+                    <hr style="border-color: rgba(255,255,255,0.2); margin: 2rem 0;">
+                    <h3 style="color: white; margin-bottom: 1rem;">والصياغة المختصرة جداً:</h3>
+                    <h2 style="font-size: 2rem; color: #FFF; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                        معزز = إدارة أذكى + انصراف آمن + تواصل أوضح + سلوك محفز + قرار أسرع.
+                    </h2>
+                </div>
+            </section>
+
+        </main>
+    </div> <!-- نهاية app-wrapper -->
+
+    <button id="backToTop" title="العودة للأعلى"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        // -----------------------------------------------------
+        // نظام تسجيل الدخول (حساب ثابت)
+        // -----------------------------------------------------
+        const VALID_USER = "marketing@moazez.com";
+        const VALID_PASS = "moazzez@112481632";
+
+        function handleLogin() {
+            const userIn = document.getElementById('usernameInput').value;
+            const passIn = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('loginError');
+
+            if (userIn === VALID_USER && passIn === VALID_PASS) {
+                // إخفاء شاشة الدخول
+                document.getElementById('loginOverlay').style.display = 'none';
+                
+                // إظهار الموسوعة
+                const appWrapper = document.getElementById('mainAppWrapper');
+                appWrapper.style.display = 'flex';
+                
+                // إجبار المتصفح على قراءة التنسيق لضمان عمل الـ Scrollspy
+                window.dispatchEvent(new Event('resize'));
+            } else {
+                // إظهار رسالة الخطأ
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        // تفعيل زر Enter للدخول
+        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+
+        document.getElementById('usernameInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('passwordInput').focus();
+            }
+        });
+
+        // -----------------------------------------------------
+        // الكود الأصلي للموسوعة
+        // -----------------------------------------------------
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth <= 992) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
